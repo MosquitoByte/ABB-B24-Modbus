@@ -75,11 +75,9 @@ def read_meter():
         instrument1.serial.timeout = instrument1_timeout
 
         var1 = instrument1.read_long(REGISTER_A, functioncode=3, signed=False, byteorder=0, number_of_registers: int = 2)
-        var2 = instrument1.read_float(REGISTER_B, functioncode=3, number_of_registers=2, byteorder=0)
-        var3 = instrument1.read_long(REGISTER_C, functioncode=3, signed=False, byteorder=0, number_of_registers: int = 4)
-        var4 = instrument1.read_float(REGISTER_D, functioncode=3, number_of_registers=4, byteorder=0)
-        
-        return var1, var2, var3, var4
+        var2 = instrument1.read_long(REGISTER_C, functioncode=3, signed=False, byteorder=0, number_of_registers: int = 4)
+           
+        return var1, var2
 
     except Exception as e:
         print("Error:", e)
@@ -94,12 +92,10 @@ try:
             # Wait for a short duration before reading again
             time.sleep(5)  # Adjust as needed
         
-        var1, var2, var3, var4 = read_meter()
-        if var1 is not None and var2 is not None and var3 is not None and var4 is not None:
-            print("Voltage L1:",var1, end=' / ')
-            print("Voltage L1 float:",var2, end=' / ')
-            print("Active Import:",var3, end=' / ')
-            print("Active Import float:", var4)
+        var1, var2 = read_meter()
+        if var1 is not None and var2 is not None:
+            print("Voltage L1:",(var1/10), end=' / ')
+            print("Active Import:",(var2/10))
             # Wait for a short duration before reading again
             time.sleep(5)  # Adjust as needed            
             
